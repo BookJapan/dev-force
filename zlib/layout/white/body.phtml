@@ -1,0 +1,21 @@
+<body onload="">
+
+<?php print ${"header.phtml"}; ?>
+
+<div class="table" style="width:100%;">
+	<div class="tr">
+		<div class="td" style="width:200px;">
+		left menu
+		</div>
+		<div class="td">
+		<?php $this->content(); ?>
+		</div>
+		<div class="td">
+		right menu
+		</div>
+	</div>
+</div>
+
+<?php print ${"footer.phtml"}; ?>
+
+</body>

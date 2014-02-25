@@ -1,0 +1,77 @@
+<?php
+/* @var $this DevForce */
+$this->mark();
+?>
+<table border=1>
+	<tr>
+		<?php foreach( $record[0] as $key => $var ): ?>
+			<th><?php print $key ?></th>
+		<?php endforeach; ?>
+	</tr>
+<?php foreach( $record as $index => $columns ): ?>
+	<tr>
+		<?php foreach( $columns as $key => $column ): ?>
+			<td class="edit" column="<?php print $key ?>">
+				<span class="value"><?php print $column ?></span>
+			</td>
+		<?php endforeach; ?>
+	</tr>
+<?php endforeach; ?>
+</table>
+
+<script type="text/javascript" src="<?php print $this->ConvertURL('app:/js/jquery-1.11.0.min.js') ?>"></script>
+<script>
+jQuery(function($) {
+	$(".edit").click(function(event){
+		//	hide
+		$(this).children(".value").hide();
+
+		//	input
+		if( $(this).children(".input").size() ){
+			//	exists
+			$(this).children(".input").show().focus();
+			return;
+		}else{
+			//	init input
+			var $input = $("<input />");
+			$input.addClass("input");
+			$input.val( $(this).children(".value").html() );
+			$(this).append($input);
+			$input.focus();
+		}
+		
+		$input.blur(function(event){
+			
+			var column = $(this).parent().attr('column');
+			var value  = $(this).val();
+			
+			//	compare
+			if( $(this).val() != $(this).parent().children(".value").html() ){
+				//	init post data
+				var data = {page: 'test', id: 1, column: column, value: value};
+				//	ajax
+				$.ajax({
+					type: "GET",
+					url: "<?php print $this->ConvertURL('app:/ajax') ?>", 
+					context: $(this), 
+					data: data,
+					success: function(result){
+					//	alert(result);
+						json = $.parseJSON(result);
+						if(json.error){
+							alert(json.error);
+						}
+						$(this).parent().children(".value").html(json.value);
+						$(this).val(json.value);
+					//	alert(json.value);
+					}
+				});
+			}
+
+		//	$(this).remove();
+			$(this).hide();
+			$(this).parent().children(".value").show();
+		});
+	});
+});
+</script>

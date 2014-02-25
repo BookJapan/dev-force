@@ -1,0 +1,3 @@
+@CHARSET "UTF-8";
+@import url('default.css');
+@import url('<?php print $this->ConvertURL('layout:/layout.css') ?>');

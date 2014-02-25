@@ -1,0 +1,16 @@
+<?php
+/* @var $this DevForce */
+?>
+<?php $this->form()->Start($form_config->name) ?>
+<table>
+<?php foreach( $form_config->input as $key => $var ): ?>
+	<tr>
+		<td><?php $this->form()->Label($key) ?></td>
+		<td>
+			<?php $this->form()->Input($key) ?><br/>
+			<?php $this->form()->Error($key) ?>
+		</td>
+	</tr>
+<?php endforeach; ?>
+</table>
+<?php $this->form()->Finish($form_config->name) ?>

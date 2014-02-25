@@ -1,0 +1,27 @@
+
+php_value	short_open_tag	On
+php_value	display_errors	On
+php_flag	log_errors		Off
+
+# NewWorld2 execute option
+Options +FollowSymLinks +ExecCGI +Indexes
+
+<IfModule mod_rewrite.c>
+
+	# Rewrite is start
+	RewriteEngine On
+	
+	# Base Directory (This is app root.)
+	RewriteBase /devforce
+	
+	# If a file does not exists.
+	RewriteCond  %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*)$ app.php [L]
+	
+	# If the file exists if
+	RewriteCond  %{REQUEST_FILENAME} -f
+	# For the extensions.
+	RewriteRule (\.css|\.php|\.htm|\.html|\.phtml)$ app.php [L]
+	
+</IfModule>
+

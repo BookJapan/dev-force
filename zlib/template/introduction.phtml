@@ -1,0 +1,11 @@
+<?php
+//	initialize variable.
+$path = preg_replace('|/[^/]*$|i', '', $_SERVER['REQUEST_URI']);
+
+print 'Please check to <b>"'.$path.'/.htaccess"</b> files settings.<br/>'.PHP_EOL;
+print '<ol>'.PHP_EOL;
+print '<li><b>RewriteEngine: </b>Change to <b>"ON"</b> from "OFF".<br/>'.PHP_EOL;
+if( $_SERVER['REQUEST_URI'] !== '/' ){
+	print '<li><b>RewriteBase: </b>Change to <b>"'.$path.'"</b> from "/".<br/>'.PHP_EOL;
+}
+print '</ol>'.PHP_EOL;
