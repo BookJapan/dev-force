@@ -28,9 +28,8 @@ if(!$page){
 $config = $this->GetConfigPage($page);
 
 //	Check permit
-if(!$this->CheckPermit( $config, $name, $role )){
+if(!$this->CheckPermit( $config, $name, $role, $error )){
 	$status	 = 'ERROR';
-	$error	 = 'Not allowed.';
 	//	finish
 	include('print.php');
 }

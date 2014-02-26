@@ -102,11 +102,15 @@ class DevForce extends App
 		}
 	}
 	
-	function CheckPermit( $config, $name, $role )
+	function CheckPermit( $config, $name, $role, &$error )
 	{
 		//	init
-		$allow = false;
-		$deny = true;
+		$allow = 0;
+		$deny = 1;
+		
+		if(empty($config)){
+			$deny = 2;
+		}
 		
 		//	check permission(allow)
 		if( isset($config->allow) ){
@@ -127,13 +131,13 @@ class DevForce extends App
 		//	Check permission(deny)
 		if( isset($config->deny) ){
 			if( trim($config->deny) === '*' ){
-				$deny = true;
+				$deny = 3;
 			}else{
-				$deny = false;
+				$deny = 0;
 				foreach( explode(',',$config->deny) as $var ){
 					$var = trim($var);
 					if($var === $name or $var === $role){
-						$deny = true;
+						$deny = 4;
 						break;
 					}
 				}
@@ -142,13 +146,13 @@ class DevForce extends App
 		
 		//	Check deny
 		if( $deny ){
-			$this->mark("Access is denied.");
+			$error = "Access is denied. ($deny)";
 			return false;
 		}
 		
 		//	Check allow
 		if(!$allow ){
-			$this->mark("Access is not allowed.");
+			$error = "Access is not allowed. ($allow)";
 			return false;
 		}
 		

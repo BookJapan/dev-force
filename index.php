@@ -21,19 +21,19 @@ $action = $this->GetAction();
 
 //  Get URL Args
 $page = $this->GetArgs('page');
-//$this->mark('page='.$page);
 $config = $this->GetConfigPage($page);
-$this->d($config);
+
+//	init
+$error = null;
 
 //	Check permit
-if(!$this->CheckPermit( $config, $name, $role )){
+if(!$this->CheckPermit( $config, $name, $role, $error )){
 	return false;
 }
 
 //	Get select config
 $select = $this->GetSelectOfPage( $name, $role, $page, $error );
 $record = $this->pdo()->select($select);
-//$this->d($record);
 
 $pkey = $config->pkey;
 include('index.phtml');

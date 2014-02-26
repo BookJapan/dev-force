@@ -45,12 +45,13 @@ jQuery(function($) {
 			var pvar   = $(this).parent().parent().attr('pvar');
 			var column = $(this).parent().attr('column');
 			var value  = $(this).val();
+			var page   = '<?php print $page ?>';
 			
 			//	compare
 			if( $(this).val() != $(this).parent().children(".value").html() ){
 				
 				//	init post data
-				var data = {page: 'test', id: pvar, column: column, value: value};
+				var data = {page: page, id: pvar, column: column, value: value};
 				
 				//	ajax
 				$.ajax({
