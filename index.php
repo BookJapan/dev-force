@@ -31,17 +31,7 @@ if(!$this->CheckPermit( $config, $name, $role )){
 }
 
 //	Get select config
-if( isset($config->select->$name) ){
-	$select = $config->select->$name;
-}else if( isset($config->select->$role) ){
-	$select = $config->select->$role;
-}else{
-	$select = $config->select->default;
-}
-
-//	Memcache measures
-$select->name = $name;
-$select->role = $role;
+$select = $this->GetSelectOfPage( $name, $role, $page, $error );
 $record = $this->pdo()->select($select);
 //$this->d($record);
 

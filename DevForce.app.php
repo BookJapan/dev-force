@@ -184,7 +184,37 @@ class DevForce extends App
 		return $pdo;
 	}
 	
-	function GetUpdateAtPage( $name, $role, $page, &$error )
+	function GetSelectOfPage( $name, $role, $page, &$error )
+	{
+		//	page config
+		$config = $this->GetConfigPage($page);
+		
+		//	Init
+		$host		 = isset($config->host)     ? $config->host:     null;
+		$database	 = isset($config->database) ? $config->database: null;
+		$table		 = isset($config->table)    ? $config->table:    null;
+		$column		 = isset($config->column)   ? $config->column:   null;
+	//	$pkey		 = isset($config->pkey)     ? $config->pkey:     null;
+	//	$id			 = Toolbox::GetRequest('id');
+	//	$column		 = Toolbox::GetRequest('column');
+	//	$value		 = Toolbox::GetRequest('value');
+	//	$limit		 = 1;
+		
+		//	Init select
+		$select = new Config();
+		$select->host	 = $host;
+		$select->database= $database;
+		$select->table	 = $table;
+		$select->column	 = $column;
+		
+		//	Memcache measures
+		$select->name = $name;
+		$select->role = $role;
+		
+		return $select;
+	}
+	
+	function GetUpdateOfPage( $name, $role, $page, &$error )
 	{
 		//	target page
 		/*
