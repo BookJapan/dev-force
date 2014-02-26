@@ -9,7 +9,7 @@ $this->mark();
 		<?php endforeach; ?>
 	</tr>
 <?php foreach( $record as $index => $columns ): ?>
-	<tr>
+	<tr pvar="<?php print $columns[$pkey] ?>">
 		<?php foreach( $columns as $key => $column ): ?>
 			<td class="edit" column="<?php print $key ?>">
 				<span class="value"><?php print $column ?></span>
@@ -17,7 +17,7 @@ $this->mark();
 		<?php endforeach; ?>
 	</tr>
 <?php endforeach; ?>
-</table>
+</table> 
 
 <script type="text/javascript" src="<?php print $this->ConvertURL('app:/js/jquery-1.11.0.min.js') ?>"></script>
 <script>
@@ -41,14 +41,17 @@ jQuery(function($) {
 		}
 		
 		$input.blur(function(event){
-			
+			//	init
+			var pvar   = $(this).parent().parent().attr('pvar');
 			var column = $(this).parent().attr('column');
 			var value  = $(this).val();
 			
 			//	compare
 			if( $(this).val() != $(this).parent().children(".value").html() ){
+				
 				//	init post data
-				var data = {page: 'test', id: 1, column: column, value: value};
+				var data = {page: 'test', id: pvar, column: column, value: value};
+				
 				//	ajax
 				$.ajax({
 					type: "GET",
@@ -67,7 +70,7 @@ jQuery(function($) {
 					}
 				});
 			}
-
+			
 		//	$(this).remove();
 			$(this).hide();
 			$(this).parent().children(".value").show();

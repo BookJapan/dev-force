@@ -23,7 +23,7 @@ $action = $this->GetAction();
 $page = $this->GetArgs('page');
 //$this->mark('page='.$page);
 $config = $this->GetConfigPage($page);
-//$this->d($config);
+$this->d($config);
 
 //	Check permit
 if(!$this->CheckPermit( $config, $name, $role )){
@@ -35,4 +35,5 @@ $select = $this->GetSelectOfPage( $name, $role, $page, $error );
 $record = $this->pdo()->select($select);
 //$this->d($record);
 
+$pkey = $config->pkey;
 include('index.phtml');
