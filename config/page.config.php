@@ -6,6 +6,9 @@ $config = new Config();
 //	page test count
 $page_name = 'test-count';
 
+//	The description of this page.
+$config->$page_name->description = 'Simple test';
+
 //	allow, deny
 $config->$page_name->allow	 = '*';
 $config->$page_name->deny	 = '';
@@ -22,6 +25,9 @@ $config->$page_name->pkey	 = 'id';
 //	page test test
 $page_name = 'test-join';
 
+//	The description of this page.
+$config->$page_name->description = 'Test of join table';
+
 //	allow, deny
 $config->$page_name->allow	 = '*';
 $config->$page_name->deny	 = '';
@@ -37,6 +43,9 @@ $config->$page_name->pkey	 = 't_join_base.id';
 
 //	page test test
 $page_name = 'onepiece-translate';
+
+//	The description of this page.
+$config->$page_name->description = 'Permit per column.';
 
 //	allow, deny
 $config->$page_name->allow	 = '*';
@@ -59,17 +68,17 @@ $define->insert = true;
 $define->update = false;
 $define->delete = false;
 
-$define->label = 'From言語';
+$define->label = 'From';
 $config->$page_name->column->source = clone($define);
 
-$define->label = 'To言語';
+$define->label = 'To';
 $config->$page_name->column->target = clone($define);
 
-$define->label = 'From文章';
+$define->label = 'From 文章';
 //$define->update = true;
 $config->$page_name->column->text = clone($define);
 
-$define->label = 'To文章';
+$define->label = 'To 文章';
 $define->update = true;
 $config->$page_name->column->translation = clone($define);
 

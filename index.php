@@ -38,5 +38,8 @@ $record = $this->pdo()->select($select);
 //	Get column name
 $column_name_list = $this->GetColumnNameList( $record, $page );
 
+//	Get page of description
+$description = $this->GetPageDescription( $page );
+
 $pkey = $config->pkey;
 include('index.phtml');

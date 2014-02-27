@@ -286,8 +286,7 @@ class DevForce extends App
 			$column{strlen($column)-1} = '';
 			*/
 		}
-		
-		$this->mark($column);
+		//$this->mark($column);
 		
 		//	Init select
 		$select = new Config();
@@ -371,5 +370,12 @@ class DevForce extends App
 		}
 		
 		return $list;
+	}
+	
+	function GetPageDescription( $page )
+	{
+		//	page config
+		$config = $this->GetConfigPage($page);
+		return isset($config->description) ? $config->description: null;
 	}
 }
