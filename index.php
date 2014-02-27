@@ -36,7 +36,7 @@ $select = $this->GetSelectOfPage( $name, $role, $page, $error );
 $record = $this->pdo()->select($select);
 
 //	Get column name
-$column_list = $this->GetColumnNameList( $record, $page );
+$column_name_list = $this->GetColumnNameList( $record, $page );
 
 $pkey = $config->pkey;
 include('index.phtml');

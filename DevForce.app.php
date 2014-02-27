@@ -291,17 +291,8 @@ class DevForce extends App
 	
 	function GetUpdateOfPage( $name, $role, $page, &$error )
 	{
-		//	target page
-		/*
-		if(!$page){
-			$page = Toolbox::GetRequest('paeg');
-		}
-		*/
-		
 		//	page config
 		$config = $this->GetConfigPage($page);
-	//	$this->mark($page);
-	//	$this->d($config);
 		
 		//	init
 		$host		 = isset($config->host)     ? $config->host:     null;
@@ -348,6 +339,21 @@ class DevForce extends App
 	
 	function GetColumnNameList( $record, $page )
 	{
+		//	page config
+		$config = $this->GetConfigPage($page);
 		
+		if(empty($config->column)){
+			foreach($record[0] as $key => $var){
+				$list[] = $key;
+			}
+		}else if(is_string($config->column)){
+			$list = explode(',',trim($config->column));
+		}else{
+			foreach($config->column as $key => $var){
+				$list[] = isset($var->label) ? $var->label: $key;
+			}
+		}
+		
+		return $list;
 	}
 }

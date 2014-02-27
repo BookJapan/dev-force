@@ -60,19 +60,20 @@ $define->update = true;
 $define->delete = false;
 
 $define->label = 'From言語';
-$config->$page_name->column->source = $define;
+$config->$page_name->column->source = clone($define);
 
 $define->label = 'To言語';
-$config->$page_name->column->target = $define;
+$config->$page_name->column->target = clone($define);
 
 $define->label = 'From文章';
-$config->$page_name->column->text = $define;
+$config->$page_name->column->text = clone($define);
 
 $define->label = 'To文章';
 $define->update = false;
-$config->$page_name->column->translation = $define;
- 
-$config->$page_name->column->timestamp = $define;
+$config->$page_name->column->translation = clone($define);
+
+$define->label = 'タイムスタンプ';
+$config->$page_name->column->timestamp = clone($define);
 
 /*****************************************************************/
 
