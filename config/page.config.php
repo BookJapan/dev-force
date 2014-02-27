@@ -63,10 +63,16 @@ $config->$page_name->pkey	 = 'id';
 
 //	column (multi)
 $define = new Config();
+$define->allow  = '';
+$define->deny   = '';
 $define->select = true;
 $define->insert = true;
 $define->update = false;
 $define->delete = false;
+
+$define->label = 'ID';
+$config->$page_name->column->id = clone($define);
+$config->$page_name->column->id->hidden = true;
 
 $define->label = 'From';
 $config->$page_name->column->source = clone($define);

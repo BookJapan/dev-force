@@ -378,4 +378,52 @@ class DevForce extends App
 		$config = $this->GetConfigPage($page);
 		return isset($config->description) ? $config->description: null;
 	}
+	
+	function GetColumnStruct( $page )
+	{
+		//	page config
+		$config = $this->GetConfigPage($page);
+		$struct = $this->pdo()->GetTableStruct($config->table,$config->database);
+	//	$this->d($struct);
+		
+		if( empty($config->column) ){
+			//	was no.
+			$result = $struct;
+		}else if( is_string($config->column) ){
+			//	only column name.
+			$list = explode(',',trim($config->column));
+			//	Added a pkey at forcibly.
+			$result[$config->pkey] = $struct[$config->pkey];
+			//	is choose the column.
+			foreach($list as $column_name){
+				$result[$column_name] = $struct[$column_name]; 
+			}
+		}else if( is_object($config->column) or is_array($config->column) ){
+			//	was detail setting.
+			//	Added a pkey at forcibly.
+			$result[$config->pkey] = $struct[$config->pkey];
+			//	is choose the column.
+			foreach($config->column as $column_name => $column){
+				//	copy a struct.
+				$result[$column_name] = $struct[$column_name];
+				//	if parameter is hidden.
+				if(!empty($column->hidden) ){
+					//	this column to hidden.
+					$result[$column_name]['hidden'] = true;
+				}
+				//	update have been rejected.
+				
+				//	label
+				if(!empty($column->label)){
+					$result[$column_name]['label'] = $column->label;
+				}else{
+					$result[$column_name]['label'] = $column_name;
+				}
+			}
+		}
+		
+		$this->d($result['id']);
+		
+		return $result;
+	}
 }

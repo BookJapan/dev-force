@@ -7,15 +7,25 @@
 <?php if(isset($record[0])): ?>
 <table border=1>
 	<tr>
-		<?php foreach( $column_name_list as $var ): ?>
-			<th><?php print $var ?></th>
+		<?php foreach( $columu_struct as $struct ): ?>
+			<?php
+			if(!empty($struct['hidden'])){ continue; }
+			$label	 = $struct['label'];
+			$column	 = $struct['field'];
+			$type	 = $struct['type'];
+			$length	 = isset($struct['length']) ? $struct['length']: null;
+			?>
+			<th type="<?php print $type ?>" lengty="<?php print $length ?>" column="<?php print $column ?>">
+				<?php print $label ?>
+			</th>
 		<?php endforeach; ?>
 	</tr>
 <?php foreach( $record as $index => $columns ): ?>
 	<tr pvar="<?php print $columns[$pkey] ?>">
-		<?php foreach( $columns as $key => $column ): ?>
-			<td class="edit" column="<?php print $key ?>">
-				<span class="value"><?php print $column ?></span>
+		<?php foreach( $columns as $column_name => $value ): ?>
+			<?php if(!empty($columu_struct[$column_name]['hidden'])){ continue; } ?>
+			<td class="edit" column="<?php print $column_name ?>">
+				<span class="value"><?php print $value ?></span>
 			</td>
 		<?php endforeach; ?>
 	</tr>
