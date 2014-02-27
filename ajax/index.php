@@ -35,7 +35,7 @@ if(!$this->CheckPermitAccount( $config, $name, $role, $error )){
 }
 
 //	Check permit column
-if(!$this->CheckPermitColumn( $config, $name, $role, $column, $error )){
+if(!$this->CheckPermitColumn( $config, $name, $role, $column, 'update', $error )){
 	$status	 = 'ERROR';
 	//	finish
 	include('print.php');

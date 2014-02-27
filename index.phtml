@@ -1,6 +1,7 @@
 <?php
 /* @var $this DevForce */
 $this->mark();
+$this->d($record[0]);
 ?>
 <?php if(isset($record[0])): ?>
 <table border=1>
@@ -62,15 +63,19 @@ jQuery(function($) {
 					context: $(this), 
 					data: data,
 					success: function(result){
-					//	alert(result);
 						json = $.parseJSON(result);
+						//	LOGOUT
+						if(json.status == 'LOGOUT'){
+							location.reload();
+						}	
+						//	ERROR
 						if(json.error){
 							alert(json.error);
 							return;
 						}
+						//	OK
 						$(this).parent().children(".value").html(json.value);
 						$(this).val(json.value);
-					//	alert(json.value);
 					}
 				});
 			}

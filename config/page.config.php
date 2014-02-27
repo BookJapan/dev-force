@@ -56,7 +56,7 @@ $config->$page_name->pkey	 = 'id';
 $define = new Config();
 $define->select = true;
 $define->insert = true;
-$define->update = true;
+$define->update = false;
 $define->delete = false;
 
 $define->label = 'From言語';
@@ -66,10 +66,11 @@ $define->label = 'To言語';
 $config->$page_name->column->target = clone($define);
 
 $define->label = 'From文章';
+//$define->update = true;
 $config->$page_name->column->text = clone($define);
 
 $define->label = 'To文章';
-$define->update = false;
+$define->update = true;
 $config->$page_name->column->translation = clone($define);
 
 $define->label = 'タイムスタンプ';

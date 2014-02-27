@@ -159,7 +159,7 @@ class DevForce extends App
 		return true;
 	}
 	
-	function CheckPermitColumn( $config, $name, $role, $column, &$error )
+	function CheckPermitColumn( $config, $name, $role, $column, $dml, &$error )
 	{
 		//	init
 		$allow = 1;
@@ -177,10 +177,13 @@ class DevForce extends App
 				$deny  = "$column: ".$config->column;
 			}
 		}
+		
 		//	object / array
-		if( is_array($config->column) ){
+		if( is_object($config->column) or is_array($config->column) ){			
 			foreach($config->column as $column_name => $column_config){
+				//	compare column name
 				if( $column === $column_name){
+					//	name, role permit
 					if( isset($column_config->allow) and preg_match("/$name|$role/",$column_config->allow) ){
 						$allow = 2;
 					}else if( isset($column_config->deny) and preg_match("/$name|$role/",$column_config->deny) ){
@@ -188,9 +191,17 @@ class DevForce extends App
 					}else{
 						
 					}
+					//	permit per dml 
+					if( isset($column_config->$dml) ){
+						if(!$column_config->$dml ){
+							$deny = $dml;
+						}
+					}
+					continue;
 				}
+				//	next
 			}
-		}else{
+		}else{			
 			$allow = 3;
 		}
 		
@@ -265,12 +276,15 @@ class DevForce extends App
 		}else if( is_string($config->column) ){
 			$column = $config->column;
 		}else if( is_object($config->column) or is_array($config->column) ){
-			$column = '';
+			$column = $config->pkey;
 			foreach($config->column as $name => $temp){
-				$column .= "$name,";
+				if( $name === $config->pkey ){ continue; }
+				$column .= ", $name";
 			}
+			/*
 			rtrim($column,',');//does not work
 			$column{strlen($column)-1} = '';
+			*/
 		}
 		
 		$this->mark($column);
@@ -349,7 +363,9 @@ class DevForce extends App
 		}else if(is_string($config->column)){
 			$list = explode(',',trim($config->column));
 		}else{
+			$list[] = $config->pkey;
 			foreach($config->column as $key => $var){
+				if( $config->pkey === $key ){ continue; }
 				$list[] = isset($var->label) ? $var->label: $key;
 			}
 		}
