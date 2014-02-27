@@ -27,7 +27,7 @@ $config = $this->GetConfigPage($page);
 $error = null;
 
 //	Check permit
-if(!$this->CheckPermit( $config, $name, $role, $error )){
+if(!$this->CheckPermitAccount( $config, $name, $role, $error )){
 	return false;
 }
 

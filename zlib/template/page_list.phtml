@@ -1,0 +1,8 @@
+<?php
+/* @var $this DevForce */
+?>
+<ul>
+<?php foreach( $this->GetPageList() as $page ): ?>
+	<li><a href="<?php print $page['href']?>"><?php print $page['label'] ?></a></li>
+<?php endforeach; ?>
+</ul>

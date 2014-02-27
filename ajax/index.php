@@ -27,8 +27,15 @@ if(!$page){
 //	Get page config
 $config = $this->GetConfigPage($page);
 
-//	Check permit
-if(!$this->CheckPermit( $config, $name, $role, $error )){
+//	Check permit account
+if(!$this->CheckPermitAccount( $config, $name, $role, $error )){
+	$status	 = 'ERROR';
+	//	finish
+	include('print.php');
+}
+
+//	Check permit column
+if(!$this->CheckPermitColumn( $config, $name, $role, $column, $error )){
 	$status	 = 'ERROR';
 	//	finish
 	include('print.php');

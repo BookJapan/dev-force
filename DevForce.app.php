@@ -102,7 +102,7 @@ class DevForce extends App
 		}
 	}
 	
-	function CheckPermit( $config, $name, $role, &$error )
+	function CheckPermitAccount( $config, $name, $role, &$error )
 	{
 		//	init
 		$allow = 0;
@@ -153,6 +153,54 @@ class DevForce extends App
 		//	Check allow
 		if(!$allow ){
 			$error = "Access is not allowed. ($allow)";
+			return false;
+		}
+		
+		return true;
+	}
+	
+	function CheckPermitColumn( $config, $name, $role, $column, &$error )
+	{
+		//	init
+		$allow = 1;
+		$deny  = 0;
+		
+		//	
+		if(empty($config)){
+			$deny = 1;
+		}
+		
+		//	
+		if(isset($config->column)){
+			foreach($config->column as $column_name => $column_config){
+				if( $column === $column_name){
+					if( isset($column_config->allow) and preg_match("/$name|$role/",$column_config->allow) ){
+						$allow = 2;
+					}else if( isset($column_config->deny) and preg_match("/$name|$role/",$column_config->deny) ){
+						$deny  = 2;
+					}else{
+						
+					}
+				}
+			}
+		}else{
+			$allow = 3;
+		}
+		
+		//	
+		if( $config->pkey === $column or $column === 'timestamp' ){
+			$deny = 10;
+		}
+		
+		//	Check deny
+		if( $deny ){
+			$error = "This column access to denied. ($deny)";
+			return false;
+		}
+		
+		//	Check allow
+		if(!$allow ){
+			$error = "This column access is not allow. ($allow)";
 			return false;
 		}
 		
@@ -250,11 +298,6 @@ class DevForce extends App
 			}
 		}
 		
-		if( $column == 'timestamp' ){
-			$error = 'Does not has access to timestamp.';
-			return false;
-		}
-		
 		//	create
 		$update = new Config();
 		$update->host	 = $host;
@@ -265,5 +308,18 @@ class DevForce extends App
 		$update->set->$column = $value;
 		
 		return $update;
+	}
+	
+	function GetPageList()
+	{
+		foreach($this->_config->{self::_CONFIG_PAGE_} as $name => $config ){
+			$label = isset($config->label) ? $config->label: $name;
+			$href = $this->ConvertURL("app:/page:$name");
+			$page['label'] = $label;
+			$page['href']  = $href;
+			$pages[] = $page;
+		}
+		
+		return $pages;
 	}
 }
