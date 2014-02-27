@@ -35,5 +35,8 @@ if(!$this->CheckPermitAccount( $config, $name, $role, $error )){
 $select = $this->GetSelectOfPage( $name, $role, $page, $error );
 $record = $this->pdo()->select($select);
 
+//	Get column name
+$column_list = $this->GetColumnNameList( $record, $page );
+
 $pkey = $config->pkey;
 include('index.phtml');

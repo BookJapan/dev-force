@@ -170,14 +170,21 @@ class DevForce extends App
 			$deny = 1;
 		}
 		
-		//	
-		if(isset($config->column)){
+		//	string
+		if( is_string($config->column) ){
+			if(!preg_match("/ $column,/",' '.trim($config->column).',')){
+				$allow = 0;
+				$deny  = "$column: ".$config->column;
+			}
+		}
+		//	object / array
+		if( is_array($config->column) ){
 			foreach($config->column as $column_name => $column_config){
 				if( $column === $column_name){
 					if( isset($column_config->allow) and preg_match("/$name|$role/",$column_config->allow) ){
 						$allow = 2;
 					}else if( isset($column_config->deny) and preg_match("/$name|$role/",$column_config->deny) ){
-						$deny  = 2;
+						$deny  = 3;
 					}else{
 						
 					}
@@ -245,12 +252,28 @@ class DevForce extends App
 		$host		 = isset($config->host)     ? $config->host:     null;
 		$database	 = isset($config->database) ? $config->database: null;
 		$table		 = isset($config->table)    ? $config->table:    null;
-		$column		 = isset($config->column)   ? $config->column:   null;
+	//	$column		 = isset($config->column)   ? $config->column:   null;
 	//	$pkey		 = isset($config->pkey)     ? $config->pkey:     null;
 	//	$id			 = Toolbox::GetRequest('id');
 	//	$column		 = Toolbox::GetRequest('column');
 	//	$value		 = Toolbox::GetRequest('value');
 	//	$limit		 = 1;
+		
+		//	column
+		if( empty($config->column) ){
+			$column = null;
+		}else if( is_string($config->column) ){
+			$column = $config->column;
+		}else if( is_object($config->column) or is_array($config->column) ){
+			$column = '';
+			foreach($config->column as $name => $temp){
+				$column .= "$name,";
+			}
+			rtrim($column,',');//does not work
+			$column{strlen($column)-1} = '';
+		}
+		
+		$this->mark($column);
 		
 		//	Init select
 		$select = new Config();
@@ -321,5 +344,10 @@ class DevForce extends App
 		}
 		
 		return $pages;
+	}
+	
+	function GetColumnNameList( $record, $page )
+	{
+		
 	}
 }
