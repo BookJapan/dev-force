@@ -66,6 +66,7 @@ jQuery(function($) {
 						json = $.parseJSON(result);
 						if(json.error){
 							alert(json.error);
+							return;
 						}
 						$(this).parent().children(".value").html(json.value);
 						$(this).val(json.value);
