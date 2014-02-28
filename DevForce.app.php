@@ -193,15 +193,22 @@ class DevForce extends App
 					}
 					//	permit per dml 
 					if( isset($column_config->$dml) ){
-						if(!$column_config->$dml ){
-							$deny = $dml;
+					//	$this->d($column_config->$dml);
+						if( is_bool($column_config->$dml) ){
+							$deny = $column_config->$dml ? false: __LINE__;
+						}else if( is_string($column_config->$dml) ){
+							$deny = preg_match("/$name|$role/",$column_config->$dml) ? false: "$name:$role,".$column_config->$dml;
+						}else if( isset($column_config->$dml->allow) ){
+							
+						}else if( isset($column_config->$dml->deny) ){
+							
 						}
 					}
 					continue;
 				}
 				//	next
 			}
-		}else{			
+		}else{
 			$allow = 3;
 		}
 		
@@ -412,9 +419,20 @@ class DevForce extends App
 					$result[$column_name]['hidden'] = true;
 				}
 				//	update have been rejected.
-				if( isset($column->update) and empty($column->update)){
-					$result[$column_name]['disable'] = true;
+				/*
+				if( isset($column->update) ){
+					if( is_bool($column->update) and empty($column->update) ){
+						$result[$column_name]['disable'] = true;
+					}else if( is_string($column->update) ){
+						list($name,$role) = explode(':',$this->model('Login')->GetLoginID());
+						$result[$column_name]['disable'] = preg_match("/$name|$role/",$column->update) ? false: true;
+					}
 				}
+				*/
+				list($name,$role) = explode(':',$this->model('Login')->GetLoginID());
+				$error = '';
+				$result[$column_name]['disable'] = $this->CheckPermitColumn($config, $name, $role, $column_name, 'update', $error) ? false: true;
+				$this->mark($error);
 				//	label
 				if(!empty($column->label)){
 					$result[$column_name]['label'] = $column->label;
