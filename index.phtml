@@ -3,6 +3,11 @@
 //$this->mark();
 //$this->d($record[0]);
 ?>
+<style>
+.disable{
+	color:gray;
+}
+</style>
 <?php print $description; ?>
 <?php if(isset($record[0])): ?>
 <table border=1>
@@ -26,9 +31,12 @@
 <?php foreach( $record as $index => $columns ): ?>
 	<tr pvar="<?php print $columns[$pkey] ?>">
 		<?php foreach( $columns as $column_name => $value ): ?>
-			<?php if(!empty($columu_struct[$column_name]['hidden'])){ continue; } ?>
+			<?php
+			if(!empty($columu_struct[$column_name]['hidden'])){ continue; }
+			$disable = empty($columu_struct[$column_name]['disable']) ? null: 'disable';
+			?>
 			<td class="edit" column="<?php print $column_name ?>">
-				<span class="value"><?php print $value ?></span>
+				<span class="value <?php print $disable ?>"><?php print $value ?></span>
 			</td>
 		<?php endforeach; ?>
 	</tr>

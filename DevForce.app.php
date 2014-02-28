@@ -412,7 +412,9 @@ class DevForce extends App
 					$result[$column_name]['hidden'] = true;
 				}
 				//	update have been rejected.
-				
+				if( isset($column->update) and empty($column->update)){
+					$result[$column_name]['disable'] = true;
+				}
 				//	label
 				if(!empty($column->label)){
 					$result[$column_name]['label'] = $column->label;
@@ -422,7 +424,7 @@ class DevForce extends App
 			}
 		}
 		
-		$this->d($result['source']);
+		$this->d($result['timestamp']);
 		
 		return $result;
 	}

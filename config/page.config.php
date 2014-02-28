@@ -85,8 +85,8 @@ $define->label = 'From 文章';
 $config->$page_name->column->text = clone($define);
 
 $define->label = 'To 文章';
-$define->update = true;
 $config->$page_name->column->translation = clone($define);
+$config->$page_name->column->translation->update = true;
 
 $define->label = 'タイムスタンプ';
 $config->$page_name->column->timestamp = clone($define);
