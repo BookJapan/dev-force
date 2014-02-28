@@ -13,10 +13,13 @@
 			$label	 = $struct['label'];
 			$column	 = $struct['field'];
 			$type	 = $struct['type'];
+			$comment = $struct['comment'];
 			$length	 = isset($struct['length']) ? $struct['length']: null;
 			?>
 			<th type="<?php print $type ?>" lengty="<?php print $length ?>" column="<?php print $column ?>">
-				<?php print $label ?>
+				<span title="<?php print $comment ?>">
+					<?php print $label ?>
+				</span>
 			</th>
 		<?php endforeach; ?>
 	</tr>
