@@ -198,10 +198,15 @@ class DevForce extends App
 							$deny = $column_config->$dml ? false: __LINE__;
 						}else if( is_string($column_config->$dml) ){
 							$deny = preg_match("/$name|$role/",$column_config->$dml) ? false: "$name:$role,".$column_config->$dml;
-						}else if( isset($column_config->$dml->allow) ){
-							
-						}else if( isset($column_config->$dml->deny) ){
-							
+						}
+						
+						if( isset($column_config->$dml->allow) ){
+							$deny = preg_match("/\*|$name|$role/",$column_config->$dml->allow) ? false: "$name:$role,".$column_config->$dml->allow;
+						} 
+						if( isset($column_config->$dml->deny) ){
+							if(preg_match("/\*|$name|$role/",$column_config->$dml->deny)){
+								$deny = "$name:$role,".$column_config->$dml->deny;
+							}
 						}
 					}
 					continue;

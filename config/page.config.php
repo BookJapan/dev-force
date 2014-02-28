@@ -88,9 +88,9 @@ $define->label = 'To 文章';
 $config->$page_name->column->translation = clone($define);
 //$config->$page_name->column->translation->update = true;
 unset($config->$page_name->column->translation->update);
-$config->$page_name->column->translation->update = 'root, guest';
-//$config->$page_name->column->translation->update->allow = '';
-//$config->$page_name->column->translation->update->deny  = '';
+//$config->$page_name->column->translation->update = 'root, guest';
+$config->$page_name->column->translation->update->allow = '*';
+$config->$page_name->column->translation->update->deny  = 'guest';
 
 $define->label = 'タイムスタンプ';
 $config->$page_name->column->timestamp = clone($define);
