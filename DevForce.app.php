@@ -237,6 +237,9 @@ class DevForce extends App
 		return true;
 	}
 	
+	const _MYSQL_SUPER_USER_ = '_MYSQL_SUPER_USER_';
+	const _MYSQL_SUPER_USER_PASSWORD_ = '_MYSQL_SUPER_USER_PASSWORD_';
+	
 	function pdo($name=null)
 	{
 		//  get pdo object
@@ -244,6 +247,15 @@ class DevForce extends App
 		
 		//  check connection
 		if(!$pdo->isConnect()){
+			//	check super user and password 
+			if( empty($_SERVER[self::_MYSQL_SUPER_USER_]) or empty($_SERVER[self::_MYSQL_SUPER_USER_PASSWORD_]) ){
+				$mes = "Does not set super user or super user's password.";
+			//	$this->StackError($mes);
+			//	$this->d($_SERVER);
+				$this->mark(self::_MYSQL_SUPER_USER_.'='.$_SERVER[self::_MYSQL_SUPER_USER_]);
+				$this->mark(self::_MYSQL_SUPER_USER_PASSWORD_.'='.$_SERVER[self::_MYSQL_SUPER_USER_PASSWORD_]);
+				throw new Exception($mes);
+			}
 			
 			//	init database config
 			$config = new Config();
@@ -251,8 +263,8 @@ class DevForce extends App
 			$config->host     = 'localhost';
 			$config->port     = null;
 			$config->database = 'test';
-			$config->user     = $_SERVER['SUPER_USER'];
-			$config->password = $_SERVER['SUPER_USER_PASSWORD'];
+			$config->user     = $_SERVER[self::_MYSQL_SUPER_USER_];
+			$config->password = $_SERVER[self::_MYSQL_SUPER_USER_PASSWORD_];
 			$config->charset  = 'utf8';
 			
 			//  database connection
