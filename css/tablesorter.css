@@ -1,0 +1,39 @@
+/* tables */
+
+/* tablesorter-header tablesorter-headerUnSorted */
+/* tablesorter-header tablesorter-headerAsc */
+/* tablesorter-header tablesorter-headerDesc */
+table.tablesorter thead tr th {
+	background-color: #E6EEEE;
+	padding-right: 1.5em;
+}
+	
+table.tablesorter tbody td {
+	vertical-align: top;
+}
+
+table.tablesorter thead tr .tablesorter-headerAsc, table.tablesorter thead tr .tablesorter-headerDesc {
+	background-color: #8dbdd8;
+}
+
+table.tablesorter thead tr .tablesorter-header {
+	background-image: url(bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+
+table.tablesorter thead tr .tablesorter-headerAsc {
+	background-image: url(asc.gif);
+}
+
+table.tablesorter thead tr .tablesorter-headerDesc {
+	background-image: url(desc.gif);
+}
+
+table.tablesorter tbody tr.odd td {
+	background-color:#F0F0F6;
+}
+
+
+

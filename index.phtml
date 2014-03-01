@@ -2,6 +2,7 @@
 /* @var $this DevForce */
 //$this->mark();
 //$this->d($record[0]);
+//$this->d($config);
 ?>
 <style>
 .disable{
@@ -10,43 +11,60 @@
 </style>
 <?php print $description; ?>
 <?php if(isset($record[0])): ?>
-<table border=1>
-	<tr>
-		<?php foreach( $columu_struct as $struct ): ?>
-			<?php
-			if(!empty($struct['hidden'])){ continue; }
-			$label	 = $struct['label'];
-			$column	 = $struct['field'];
-			$type	 = $struct['type'];
-			$comment = $struct['comment'];
-			$length	 = isset($struct['length']) ? $struct['length']: null;
-			?>
-			<th type="<?php print $type ?>" lengty="<?php print $length ?>" column="<?php print $column ?>">
-				<span title="<?php print $comment ?>">
-					<?php print $label ?>
-				</span>
-			</th>
+<table id="myTable" class="tablesorter" border=1>
+	<!-- table header -->
+	<thead>
+		<tr>
+			<?php foreach( $columu_struct as $struct ): ?>
+				<?php
+				if(!empty($struct['hidden'])){ continue; }
+				$label	 = $struct['label'];
+				$column	 = $struct['field'];
+				$type	 = $struct['type'];
+				$comment = $struct['comment'];
+				$length	 = isset($struct['length']) ? $struct['length']: null;
+				?>
+				<th class="" type="<?php print $type ?>" lengty="<?php print $length ?>" column="<?php print $column ?>">
+					<span title="<?php print $comment ?>">
+						<?php print $label ?>
+					</span>
+				</th>
+			<?php endforeach; ?>
+		</tr>
+	</thead>
+	
+	<!-- table data -->
+	<tbody>
+		<?php foreach( $record as $index => $columns ): ?>
+			<tr pvar="<?php print $columns[$pkey] ?>">
+				<?php foreach( $columns as $column_name => $value ): ?>
+					<?php
+					if(!empty($columu_struct[$column_name]['hidden'])){ continue; }
+					$disable = empty($columu_struct[$column_name]['disable']) ? null: 'disable';
+					?>
+					<td class="edit" column="<?php print $column_name ?>">
+						<span class="value <?php print $disable ?>"><?php print $value ?></span>
+					</td>
+				<?php endforeach; ?>
+			</tr>
 		<?php endforeach; ?>
-	</tr>
-<?php foreach( $record as $index => $columns ): ?>
-	<tr pvar="<?php print $columns[$pkey] ?>">
-		<?php foreach( $columns as $column_name => $value ): ?>
-			<?php
-			if(!empty($columu_struct[$column_name]['hidden'])){ continue; }
-			$disable = empty($columu_struct[$column_name]['disable']) ? null: 'disable';
-			?>
-			<td class="edit" column="<?php print $column_name ?>">
-				<span class="value <?php print $disable ?>"><?php print $value ?></span>
-			</td>
-		<?php endforeach; ?>
-	</tr>
-<?php endforeach; ?>
+	</tbody>
 </table> 
 <?php endif; ?>
 
 <script type="text/javascript" src="<?php print $this->ConvertURL('app:/js/jquery-1.11.0.min.js') ?>"></script>
+<script type="text/javascript" src="<?php print $this->ConvertURL('app:/js/jquery.tablesorter.min.js') ?>"></script>
 <script>
 jQuery(function($) {
+	//	Setup table sorter
+	var init_sort_column = 4;
+	var init_sort_order  = 1;
+	$("#myTable").tablesorter({
+	//	sortList: [[init_sort_column,init_sort_order]]
+		widgets: ['zebra']
+	});
+	
+	//	Add click event
 	$(".edit").click(function(event){
 		//	hide
 		$(this).children(".value").hide();
