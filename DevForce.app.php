@@ -287,12 +287,13 @@ class DevForce extends App
 		$host		 = isset($config->host)     ? $config->host:     null;
 		$database	 = isset($config->database) ? $config->database: null;
 		$table		 = isset($config->table)    ? $config->table:    null;
+		$order		 = isset($config->order)    ? $config->order:    null;
+		$limit		 = isset($config->limit)    ? $config->limit:    null;
 	//	$column		 = isset($config->column)   ? $config->column:   null;
 	//	$pkey		 = isset($config->pkey)     ? $config->pkey:     null;
 	//	$id			 = Toolbox::GetRequest('id');
 	//	$column		 = Toolbox::GetRequest('column');
 	//	$value		 = Toolbox::GetRequest('value');
-	//	$limit		 = 1;
 		
 		//	column
 		if( empty($config->column) ){
@@ -318,6 +319,8 @@ class DevForce extends App
 		$select->database= $database;
 		$select->table	 = $table;
 		$select->column	 = $column;
+		$select->order	 = $order;
+		$select->limit	 = $limit;
 		
 		//	Memcache measures
 		$select->name = $name;
@@ -421,7 +424,8 @@ class DevForce extends App
 			$result[$config->pkey] = $struct[$config->pkey];
 			//	is choose the column.
 			foreach($list as $column_name){
-				$result[$column_name] = $struct[$column_name]; 
+				$column_name = trim($column_name);
+				$result[$column_name] = $struct[$column_name];
 			}
 		}else if( is_object($config->column) or is_array($config->column) ){
 			//	was detail setting.

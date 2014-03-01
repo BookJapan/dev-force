@@ -41,7 +41,7 @@ $column_name_list = $this->GetColumnNameList( $record, $page );
 //	Get page of description
 $description = $this->GetPageDescription( $page );
 
-$columu_struct = $this->GetColumnStruct($page);
+$column_struct = $this->GetColumnStruct($page);
 
 $pkey = $config->pkey;
 include('index.phtml');
