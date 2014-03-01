@@ -405,10 +405,11 @@ class DevForce extends App
 	
 	function GetColumnStruct( $page )
 	{
+		//	init
+		list($name,$role) = explode(':',$this->model('Login')->GetLoginID());
 		//	page config
 		$config = $this->GetConfigPage($page);
 		$struct = $this->pdo()->GetTableStruct($config->table,$config->database);
-	//	$this->d($struct);
 		
 		if( empty($config->column) ){
 			//	was no.
@@ -436,20 +437,7 @@ class DevForce extends App
 					$result[$column_name]['hidden'] = true;
 				}
 				//	update have been rejected.
-				/*
-				if( isset($column->update) ){
-					if( is_bool($column->update) and empty($column->update) ){
-						$result[$column_name]['disable'] = true;
-					}else if( is_string($column->update) ){
-						list($name,$role) = explode(':',$this->model('Login')->GetLoginID());
-						$result[$column_name]['disable'] = preg_match("/$name|$role/",$column->update) ? false: true;
-					}
-				}
-				*/
-				list($name,$role) = explode(':',$this->model('Login')->GetLoginID());
-				$error = '';
 				$result[$column_name]['disable'] = $this->CheckPermitColumn($config, $name, $role, $column_name, 'update', $error) ? false: true;
-				$this->mark($error);
 				//	label
 				if(!empty($column->label)){
 					$result[$column_name]['label'] = $column->label;
