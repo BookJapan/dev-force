@@ -66,7 +66,7 @@ $app->SetSettingName('setting.php');
 $app->SetLayoutDir('app:/zlib/layout');
 
 //  Set Layout in layout directory
-$app->SetLayoutName('white');
+$app->SetLayoutName('flat');
 
 //  Set template directory
 $app->SetTemplateDir('app:/zlib/template');

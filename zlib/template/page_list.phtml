@@ -1,8 +1,17 @@
 <?php
 /* @var $this DevForce */
 ?>
-<ul>
-<?php foreach( $this->GetPageList() as $page ): ?>
-	<li><a href="<?php print $page['href']?>"><?php print $page['label'] ?></a></li>
-<?php endforeach; ?>
-</ul>
+<?php if($name = $this->GetLoginName()): ?>
+	<ul>
+		<?php foreach( $this->GetPageList() as $page ): ?>
+			<li><a href="<?php print $page['href']?>"><?php print $page['label'] ?></a></li>
+		<?php endforeach; ?>
+	</ul>
+	
+	<hr style="margin:1em;" />
+	
+	<div style="margin:1em;">
+		<!-- display of logout link -->
+		<a href="<?php print $this->ConvertURL('app:/logout') ?>">Logout</a>
+	</div>
+<?php endif; ?>

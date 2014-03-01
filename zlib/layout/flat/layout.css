@@ -1,0 +1,32 @@
+
+.body{
+	margin: 0px;
+	padding: 0px;
+	color: black;
+	background-color: white;
+}
+
+#header{
+	padding: 0.5em 1em;
+	color: white;
+	background-color: black;
+}
+
+#header a{
+	color: white;
+	text-decoration: none;
+}
+
+#header .login-name{
+	padding: 0.3em 1em;
+	
+	border:1px solid white;
+	
+	color: white;
+	background-color: black;
+	
+	float:right;
+	position: relative;
+	top: 0.5em;
+	right: 1em;
+}

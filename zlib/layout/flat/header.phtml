@@ -1,0 +1,16 @@
+<?php
+/* @var $this DevForce */  
+?>
+<section>
+	<div id="header" class="left">
+		<!-- top logo -->
+		<a href="<?php print $this->ConvertURL('app:/') ?>">Dev-Force</a>
+		<!-- display of login name -->
+		<?php if($name = $this->GetLoginName()): ?>
+		<span class="login-name">
+			<?php list($name,$role) = explode(':',$this->model('Login')->GetLoginID()) ?>
+			<?php print $name ?>
+		</span>
+		<?php endif; ?>
+	</div>
+</section>
