@@ -447,8 +447,22 @@ class DevForce extends App
 			}
 		}
 		
-		$this->d($result['timestamp']);
+	//	$this->d($result['timestamp']);
 		
 		return $result;
+	}
+	
+	function isLogin()
+	{
+		return $this->model('Login')->GetLoginID() ? true: false;
+	}
+	
+	function GetLoginName()
+	{
+		if(!$id = $this->model('Login')->GetLoginID()){
+			return null;
+		}
+		list($name,$role) = explode(':',$id);
+		return $name;
 	}
 }
