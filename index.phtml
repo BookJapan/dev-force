@@ -51,6 +51,7 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
+
 <!--
 <div id="pager1">
 	<a class="first">&lt;&lt;</a>
@@ -65,8 +66,9 @@
 		<option>1000</option>
 	</select>
 </div> 
- -->
+ --> 
 
+<!--
 <div id="pager2">
 	<a class="first">&lt;&lt;</a>
 	<a class="prev">&lt;</a>
@@ -80,7 +82,8 @@
 		<option>50</option>
 		<option>100</option>
 	</select>
-</div>
+</div> 
+ -->
 
 <?php endif; ?>
 
@@ -98,17 +101,59 @@ jQuery(function($) {
 		widthFixed: true,
 		widgets: ['zebra']
 	}).tablesorterPager({
-		container: $('#pager'),
+		container: $('#pager1'),
 		size: 50,
 		positionFixed: false
 	});
+	*/
+
+	/*
+	//	setup hint of pager
+	function pageHint(sorter){
+		$(sorter).each(function(){
+			var c = this.config;
+			var total = c.totalRows;
+			var from = c.page * c.size + 1;
+			var to = (c.page + 1) * c.size;
+			if (to > total)
+			to = total;
+			$(c.cssPageHint, c.container).text([total, '件中', from, '-', to, '件目'].join(' '));
+		});
+	}
+	
+	//	setup pager
+	var pager = $('#pager2');
+	
+	//	setup tablesorter
+	var sorter = $('#myTable')
+		.tablesorter({
+			widgets: ['zebra']
+		})
+		.tablesorterPager({
+			container: pager,
+			size: 10,
+			cssPageHint: '.pagehint',
+			positionFixed: false
+		});
+	//	
+	$('.next, .prev, .first, .last', pager)
+		.click(function() {
+			pageHint(sorter);
+		});
+	//	
+	$('.pagesize', pager)
+		.change(function() {
+			pageHint(sorter);
+		});
+	//	
+	pageHint(sorter);
 	*/
 	
 	//	Add click event
 	$(".edit").click(function(event){
 		//	hide
 		$(this).children(".value").hide();
-
+		
 		//	input
 		if( $(this).children(".input").size() ){
 			//	exists
@@ -143,7 +188,7 @@ jQuery(function($) {
 					context: $(this), 
 					data: data,
 					success: function(result){
-						json = $.parseJSON(result);
+						var json = $.parseJSON(result);
 						//	LOGOUT
 						if(json.status == 'LOGOUT'){
 							location.reload();
@@ -154,8 +199,9 @@ jQuery(function($) {
 							return;
 						}
 						//	OK
-						$(this).parent().children(".value").html(json.value);
-						$(this).val(json.value);
+						var value = json.value;
+						$(this).parent().children(".value").html(value);
+						$(this).val(value);
 					}
 				});
 			}
@@ -166,42 +212,8 @@ jQuery(function($) {
 		});
 	});
 });
-
+/*
 jQuery(function($){
-	function pageHint(sorter){
-		$(sorter).each(function(){
-			var c = this.config;
-			var total = c.totalRows;
-			var from = c.page * c.size + 1;
-			var to = (c.page + 1) * c.size;
-			if (to > total)
-			to = total;
-			$(c.cssPageHint, c.container).text([total, '件中', from, '-', to, '件目'].join(' '));
-		});
-	}
-	
-	var pager = $('#pager2');
-	var sorter = $('#myTable')
-		.tablesorter({
-			widgets: ['zebra']
-		})
-		.tablesorterPager({
-			container: pager,
-			size: 10,
-			cssPageHint: '.pagehint',
-			positionFixed: false
-		}); 
-
-	$('.next, .prev, .first, .last', pager)
-		.click(function() {
-			pageHint(sorter);
-		});
-
-	$('.pagesize', pager)
-		.change(function() {
-			pageHint(sorter);
-		});
-	
-	pageHint(sorter);
 }); //jQuery
+*/
 </script>

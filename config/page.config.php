@@ -96,7 +96,6 @@ $define->label = 'タイムスタンプ';
 $config->$page_name->column->timestamp = clone($define);
 
 /*****************************************************************/
-
 //	join
 $this->_config->{self::_CONFIG_PAGE_} = $config;
 

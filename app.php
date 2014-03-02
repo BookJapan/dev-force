@@ -16,7 +16,10 @@
  *  $op_dir = '/www/op-core';
  *  $op_dir = 'C:\www\op-core';
  */ 
-$op_dir = '/www/op-core';
+$op_dir = '/var/www/common/op-core/master';
+
+//  Start time
+$st = microtime(true);
 
 //  Check
 if( $op_dir ){
@@ -31,7 +34,8 @@ if( $op_dir ){
 		include($path);
 		unset($include_path);
 	}else{
-		print "$op_dir is not place OnePiece5.class.php";
+		print "<p>$op_dir is not place OnePiece5.class.php</p>";
+		print "<p>please check ".__FILE__."</p>";
 		exit(0);
 	}
 }else{
@@ -48,13 +52,21 @@ error_reporting(E_ALL);
 //  Create App object.
 include('./DevForce.app.php');
 $app = new DevForce();
-$app->Setup();
 
-//  Start time
-$st = microtime(true);
+//	Set Admin IP-address
+//$app->SetEnv('admin-ip','');
+
+//	Application setup
+$app->Setup();
 
 //  Enable html pass through.
 $app->SetHtmlPassThrough(true);
+
+//  Set mime.
+$app->SetMime('text/html');
+
+//  Set charset.
+$app->SetCharset('utf-8');
 
 //  Set controller file name.
 $app->SetControllerName('index.php');
@@ -74,17 +86,14 @@ $app->SetTemplateDir('app:/zlib/template');
 //  Set model directory
 $app->SetModelDir('app:/zlib/model');
 
-//  Set module directory
-$app->SetModuleDir('app:/zlib/module');
-
 //  Set default title
-$app->SetTitle("OnePiece-Framework's skeleton");
+$app->SetTitle("Developer force for BookJapan");
 
 //  Set default keywords
-$app->SetKeywords('OnePiece-Framework, skeleton');
+$app->SetKeywords('');
 
 //  Set default description
-$app->SetDescription("This is OnePiece-Framework's skeleton");
+$app->SetDescription("");
 
 //  Google analytics tracking ID
 //$app->SetEnv('google-analytics-tracking-id','UA-123456789-1');

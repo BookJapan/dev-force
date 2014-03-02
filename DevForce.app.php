@@ -64,19 +64,23 @@ class DevForce extends App
 	const _CONFIG_PAGE_		 = 'page';
 	private $_config = null;
 	
+	/**
+	 * Application setup
+	 * 
+	 */
 	function Setup()
 	{
+		//	init application config.
 		if(!$this->_config){
 			$this->_config = new Config();
 		}
 		
+		//	read application config file.
 		foreach($this->model('File')->Get('./config') as $args){
 		//	$this->d($args);
 			if($args['ext'] !== 'php'){ continue; }
 			include('./config/'.$args['name']);
 		}
-		
-	//	$this->d( Toolbox::toArray($this->_config) );
 	}
 	
 	function SetConfig( $key, Config $config )
@@ -248,7 +252,7 @@ class DevForce extends App
 		//  check connection
 		if(!$pdo->isConnect()){
 			//	check super user and password 
-			if( empty($_SERVER[self::_MYSQL_SUPER_USER_]) or empty($_SERVER[self::_MYSQL_SUPER_USER_PASSWORD_]) ){
+			if( is_null($_SERVER[self::_MYSQL_SUPER_USER_]) or is_null($_SERVER[self::_MYSQL_SUPER_USER_PASSWORD_]) ){
 				$mes = "Does not set super user or super user's password.";
 			//	$this->StackError($mes);
 			//	$this->d($_SERVER);
@@ -321,7 +325,7 @@ class DevForce extends App
 		$select->column	 = $column;
 		$select->order	 = $order;
 		$select->limit	 = $limit;
-		
+				
 		//	Memcache measures
 		$select->name = $name;
 		$select->role = $role;

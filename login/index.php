@@ -1,8 +1,6 @@
 <?php
 /* @var $this DevForce */
 
-$this->mark();
-
 $form_config = $this->form()->AddForm('./form.config.php');
 //$this->d($form_config);
 
@@ -22,6 +20,8 @@ if( $this->form()->Secure($form_config->name) ){
 		include('success.phtml');
 		return;
 	}
+}else{
+//	$this->form()->Debug($form_config->name);
 }
 
 include('form.phtml');

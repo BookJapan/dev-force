@@ -1,6 +1,9 @@
 <?php
 /* @var $this DevForce */
 
+//	set header
+//header('Content-Type: text/html; charset=UTF-8', true, 201);
+
 //	create json
 $json = array();
 $json['file']	 = __FILE__;

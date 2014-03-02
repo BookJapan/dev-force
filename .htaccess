@@ -12,7 +12,7 @@ Options +FollowSymLinks +ExecCGI +Indexes
 	RewriteEngine On
 	
 	# Base Directory (This is app root.)
-	RewriteBase /devforce
+	RewriteBase /
 	
 	# If a file does not exists.
 	RewriteCond  %{REQUEST_FILENAME} !-f
