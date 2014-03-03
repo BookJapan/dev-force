@@ -5,7 +5,8 @@
 @CHARSET "UTF-8";
 
 #OnePiece *{
-	
+	/* @see http://d.hatena.ne.jp/n-yuji/20130225/p1 */
+	font-family:'Lucida Grande','Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 }
 
 /***************************************************************************************************/
