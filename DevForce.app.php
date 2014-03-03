@@ -110,11 +110,15 @@ class DevForce extends App
 	{
 		//	init
 		$allow = 0;
-		$deny = 1;
+		$deny = __LINE__;
 		
 		if(empty($config)){
-			$deny = 2;
+			$deny = __LINE__;
 		}
+		
+		$word = array();
+		$word = explode(',',str_replace(' ', '', $role));
+		$word[] = $name;
 		
 		//	check permission(allow)
 		if( isset($config->allow) ){
@@ -122,9 +126,8 @@ class DevForce extends App
 				$allow = true;
 			}else{
 				$allow = false;
-				foreach( explode(',',$config->allow) as $var ){
-					$var = trim($var);
-					if($var === $name or $var === $role){
+				foreach( explode(',', str_replace(' ','',$config->allow)) as $var ){
+					if( $io = array_search($var,$word) !== false ){
 						$allow = true;
 						break;
 					}
@@ -135,13 +138,12 @@ class DevForce extends App
 		//	Check permission(deny)
 		if( isset($config->deny) ){
 			if( trim($config->deny) === '*' ){
-				$deny = 3;
+				$deny = __LINE__;
 			}else{
 				$deny = 0;
 				foreach( explode(',',$config->deny) as $var ){
-					$var = trim($var);
-					if($var === $name or $var === $role){
-						$deny = 4;
+					if( $io = array_search($var,$word) !== false ){
+						$deny = __LINE__;
 						break;
 					}
 				}
@@ -291,10 +293,10 @@ class DevForce extends App
 		$host		 = isset($config->host)     ? $config->host:     null;
 		$database	 = isset($config->database) ? $config->database: null;
 		$table		 = isset($config->table)    ? $config->table:    null;
-		$order		 = isset($config->order)    ? $config->order:    null;
-		$limit		 = isset($config->limit)    ? $config->limit:    null;
+		$pkey		 = isset($config->pkey)     ? $config->pkey:     null;
 	//	$column		 = isset($config->column)   ? $config->column:   null;
-	//	$pkey		 = isset($config->pkey)     ? $config->pkey:     null;
+		$order		 = isset($config->order)    ? $config->order:    $pkey;
+		$limit		 = isset($config->limit)    ? $config->limit:    null;
 	//	$id			 = Toolbox::GetRequest('id');
 	//	$column		 = Toolbox::GetRequest('column');
 	//	$value		 = Toolbox::GetRequest('value');
