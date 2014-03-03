@@ -15,4 +15,4 @@ $role = 'guest';
 $config->$name->pass = $pass;
 $config->$name->role = $role;
 
-$this->_config->{self::_CONFIG_ACCOUNT_} = $config;
+$this->_config->{self::_CONFIG_ACCOUNT_}->merge($config);
