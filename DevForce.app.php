@@ -416,9 +416,25 @@ class DevForce extends App
 	{
 		//	init
 		list($name,$role) = explode(':',$this->model('Login')->GetLoginID());
+		
 		//	page config
 		$config = $this->GetConfigPage($page);
-		$struct = $this->pdo()->GetTableStruct($config->table,$config->database);
+		
+		//	get table struct
+		if(!strpos($config->table,'=')){
+			//	single table
+			$struct = $this->pdo()->GetTableStruct($config->table,$config->database);
+		}else{
+			//	join table
+			foreach( explode('=',$config->table) as $temp ){
+				//	separate table name
+				list($table,$column) = explode('.',$temp);
+				//	rebuild struct for column name.
+				foreach($this->pdo()->GetTableStruct( $table, $config->database ) as $column_name => $column_struct ){
+					$struct["{$table}.{$column_name}"] = $column_struct;
+				}
+			}
+		}
 		
 		if( empty($config->column) ){
 			//	was no.
