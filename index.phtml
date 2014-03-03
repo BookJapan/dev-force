@@ -12,18 +12,18 @@
 </style>
 <?php print $description; ?>
 <?php if(isset($record[0])): ?>
-<table id="myTable" class="tablesorter" border=1>
+<table id="dev-force" class="tablesorter" border=1>
 	<!-- table header -->
 	<thead>
 		<tr>
-			<?php foreach( $column_struct as $struct ): ?>
+			<?php foreach( $column_struct as $column_name => $struct ): ?>
 				<?php
 				if(!empty($struct['hidden'])){ continue; }
 				$column	 = $struct['field'];
 				$type	 = $struct['type'];
 				$comment = $struct['comment'];
 				$length	 = isset($struct['length']) ? $struct['length']: null;
-				$label	 = isset($struct['label']) ? $struct['label']: $column;
+				$label	 = isset($struct['label']) ? $struct['label']: $column_name;
 				?>
 				<th class="" type="<?php print $type ?>" lengty="<?php print $length ?>" column="<?php print $column ?>">
 					<span title="<?php print $comment ?>">
@@ -44,7 +44,7 @@
 					$disable = empty($column_struct[$column_name]['disable']) ? null: 'disable';
 					?>
 					<td class="edit" column="<?php print $column_name ?>">
-						<span class="value <?php print $disable ?>"><?php print $value ?></span>
+						<div class="value <?php print $disable ?>"><?php print $value ?></div>
 					</td>
 				<?php endforeach; ?>
 			</tr>
@@ -65,8 +65,8 @@
 		<option>100</option>
 		<option>1000</option>
 	</select>
-</div> 
- --> 
+</div>  
+ -->
 
 <!--
 <div id="pager2">
@@ -96,7 +96,7 @@ jQuery(function($) {
 	//	Setup table sorter
 	var init_sort_column = 4;
 	var init_sort_order  = 1;
-	$("#myTable").tablesorter({
+	$("#dev-force").tablesorter({
 	//	sortList: [[init_sort_column,init_sort_order]]
 		widthFixed: true,
 		widgets: ['zebra']
@@ -106,7 +106,7 @@ jQuery(function($) {
 		positionFixed: false
 	});
 	*/
-
+	
 	/*
 	//	setup hint of pager
 	function pageHint(sorter){
@@ -151,6 +151,7 @@ jQuery(function($) {
 	
 	//	Add click event
 	$(".edit").click(function(event){
+		
 		//	hide
 		$(this).children(".value").hide();
 		
@@ -163,6 +164,7 @@ jQuery(function($) {
 			//	init input
 			var $input = $("<input />");
 			$input.addClass("input");
+			$input.css('width', $(this).width() );
 			$input.val( $(this).children(".value").html() );
 			$(this).append($input);
 			$input.focus();
