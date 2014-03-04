@@ -37,7 +37,8 @@
 		<?php foreach( $record as $index => $columns ): ?>
 			<tr pvar="<?php print $columns[$pkey] ?>">
 				<td class="border-0">
-					<input type="button" name="" value="delete"  />
+					<!-- delete button -->
+					<input type="button" name="" value="delete" class="delete" />
 				</td>
 				<?php foreach( $columns as $column_name => $value ): ?>
 					<?php
@@ -59,8 +60,10 @@
 <script type="text/javascript" src="<?php print $this->ConvertURL('app:/js/jquery.tablesorter.pager.js') ?>"></script>
 <script>
 jQuery(function($) {
+
 	//	Add click event (update)
 	$(".update").click(function(event){
+		
 		//	width
 		var width = $(this).width()-6;
 		
@@ -107,7 +110,7 @@ jQuery(function($) {
 						//	LOGOUT
 						if(json.status == 'LOGOUT'){
 							location.reload();
-						}	
+						}else
 						//	ERROR
 						if(json.error){
 							alert(json.error);
@@ -123,6 +126,40 @@ jQuery(function($) {
 			
 			$(this).hide();
 			$(this).parent().children(".value").show();
+		});
+	});
+	
+	//	Add click event (delete)
+	$(".delete").click(function(event){
+		//	init
+		var page	 = '<?php print $page ?>';
+		var dml		 = 'delete';
+		var pvar	 = $(this).parent().parent().attr('pvar');
+				
+		//	init post data
+		var data = {page: page, dml: dml, id: pvar};
+		
+		//	ajax
+		$.ajax({
+			type: "GET",
+			url: "<?php print $this->ConvertURL('app:/ajax') ?>", 
+			context: $(this), 
+			data: data,
+			success: function(result){
+				var json = $.parseJSON(result);
+				//	LOGOUT
+				if(json.status == 'LOGOUT'){
+					location.reload();
+				}else
+				//	ERROR
+				if(json.error){
+					alert(json.error);
+					return;
+				}
+				//	Successful
+				//	remove parent tr
+				$(this).parents('tr').remove();
+			}
 		});
 	});
 });

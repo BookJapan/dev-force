@@ -2,7 +2,13 @@
 /* @var $this DevForce */
 
 //	set header
-//header('Content-Type: text/html; charset=UTF-8', true, 201);
+$mime = 'text/plain';
+//$mime = 'text/javascript';
+//$mime = 'application/json';
+header("Content-Type: $mime; charset=UTF-8", true, 201);
+
+//	query
+$query = $this->PDO()->Qu();
 
 //	create json
 $json = array();
@@ -14,6 +20,7 @@ $json['id']		 = $id;
 $json['column']	 = $column;
 $json['value']	 = $value;
 $json['time']	 = microtime(true) - $st;
+$json['query']	 = $query;
 
 print json_encode($json);
 $this->Content();

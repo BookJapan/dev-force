@@ -176,11 +176,13 @@ class DevForce extends App
 			$deny = 1;
 		}
 		
-		//	string
-		if( is_string($config->column) ){
-			if(!preg_match("/ $column,/",' '.trim($config->column).',')){
-				$allow = 0;
-				$deny  = "$column: ".$config->column;
+		//	Case of string (check is update only)
+		if( $dml === 'update' ){
+			if( is_string($config->column) ){
+				if(!preg_match("/ $column,/",' '.trim($config->column).',')){
+					$allow = 0;
+					$deny  = __LINE__.": $column: ".$config->column;
+				}
 			}
 		}
 		
@@ -203,15 +205,15 @@ class DevForce extends App
 						if( is_bool($column_config->$dml) ){
 							$deny = $column_config->$dml ? false: __LINE__;
 						}else if( is_string($column_config->$dml) ){
-							$deny = preg_match("/$name|$role/",$column_config->$dml) ? false: "$name:$role,".$column_config->$dml;
+							$deny = preg_match("/$name|$role/",$column_config->$dml) ? false: __LINE__.": $name:$role,".$column_config->$dml;
 						}
 						
 						if( isset($column_config->$dml->allow) ){
-							$deny = preg_match("/\*|$name|$role/",$column_config->$dml->allow) ? false: "$name:$role,".$column_config->$dml->allow;
+							$deny = preg_match("/\*|$name|$role/",$column_config->$dml->allow) ? false: __LINE__.": $name:$role,".$column_config->$dml->allow;
 						} 
 						if( isset($column_config->$dml->deny) ){
 							if(preg_match("/\*|$name|$role/",$column_config->$dml->deny)){
-								$deny = "$name:$role,".$column_config->$dml->deny;
+								$deny = __LINE__.": $name:$role,".$column_config->$dml->deny;
 							}
 						}
 					}
@@ -368,6 +370,37 @@ class DevForce extends App
 		$update->set->$column = $value;
 		
 		return $update;
+	}
+	
+	function GetDeleteConfig( $page, &$error )
+	{
+		//	page config
+		$config = $this->GetConfigPage($page);
+		
+		//	init
+		$host		 = isset($config->host)     ? $config->host:     null;
+		$database	 = isset($config->database) ? $config->database: null;
+		$table		 = isset($config->table)    ? $config->table:    null;
+		$pkey		 = isset($config->pkey)     ? $config->pkey:     null;
+		$id			 = Toolbox::GetRequest('id');
+		
+		//	Check
+		foreach( array('host'=>$host,'database'=>$database,'table'=>$table,'pkey'=>$pkey,'id'=>$id) as $key => $var ){
+			if( is_null($var) ){
+				$error = "$key is null.";
+				return false;
+			}
+		}
+		
+		//	delete config
+		$delete = new Config();
+		$delete->host	 = $host;
+		$delete->database= $database;
+		$delete->table	 = $table;
+		$delete->limit	 = 1;
+		$delete->where->{$pkey} = $id;
+		
+		return $delete;
 	}
 	
 	function GetPageList()
