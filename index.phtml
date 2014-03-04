@@ -1,9 +1,5 @@
 <?php
 /* @var $this DevForce */
-//$this->mark();
-//$this->d($record[0]);
-//$this->d($config);
-//$this->d($column_struct);
 ?>
 <style>
 .disable{
@@ -56,40 +52,6 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
-
-<!--
-<div id="pager1">
-	<a class="first">&lt;&lt;</a>
-	<a class="prev">&lt;</a>
-	<input class="pagedisplay" type="text">
-	<a class="next">&gt;</a>
-	<a class="last">&gt;&gt;</a>
-	<select class="pagesize">
-		<option>25</option>
-		<option selected="selected">50</option>
-		<option>100</option>
-		<option>1000</option>
-	</select>
-</div>  
- -->
-
-<!--
-<div id="pager2">
-	<a class="first">&lt;&lt;</a>
-	<a class="prev">&lt;</a>
-	<span class="pagehint"></span>
-	<a class="next">&gt;</a>
-	<a class="last">&gt;&gt;</a>
-	<select class="pagesize">
-		<option>10</option>
-		<option>20</option>
-		<option>25</option>
-		<option>50</option>
-		<option>100</option>
-	</select>
-</div> 
- -->
-
 <?php endif; ?>
 
 <script type="text/javascript" src="<?php print $this->ConvertURL('app:/js/jquery-1.11.0.min.js') ?>"></script>
@@ -97,63 +59,6 @@
 <script type="text/javascript" src="<?php print $this->ConvertURL('app:/js/jquery.tablesorter.pager.js') ?>"></script>
 <script>
 jQuery(function($) {
-	/*
-	//	Setup table sorter
-	var init_sort_column = 4;
-	var init_sort_order  = 1;
-	$("#dev-force").tablesorter({
-	//	sortList: [[init_sort_column,init_sort_order]]
-		widthFixed: true,
-		widgets: ['zebra']
-	}).tablesorterPager({
-		container: $('#pager1'),
-		size: 50,
-		positionFixed: false
-	});
-	*/
-	
-	/*
-	//	setup hint of pager
-	function pageHint(sorter){
-		$(sorter).each(function(){
-			var c = this.config;
-			var total = c.totalRows;
-			var from = c.page * c.size + 1;
-			var to = (c.page + 1) * c.size;
-			if (to > total)
-			to = total;
-			$(c.cssPageHint, c.container).text([total, '件中', from, '-', to, '件目'].join(' '));
-		});
-	}
-	
-	//	setup pager
-	var pager = $('#pager2');
-	
-	//	setup tablesorter
-	var sorter = $('#myTable')
-		.tablesorter({
-			widgets: ['zebra']
-		})
-		.tablesorterPager({
-			container: pager,
-			size: 10,
-			cssPageHint: '.pagehint',
-			positionFixed: false
-		});
-	//	
-	$('.next, .prev, .first, .last', pager)
-		.click(function() {
-			pageHint(sorter);
-		});
-	//	
-	$('.pagesize', pager)
-		.change(function() {
-			pageHint(sorter);
-		});
-	//	
-	pageHint(sorter);
-	*/
-	
 	//	Add click event (update)
 	$(".update").click(function(event){
 		//	width
@@ -216,14 +121,9 @@ jQuery(function($) {
 				});
 			}
 			
-		//	$(this).remove();
 			$(this).hide();
 			$(this).parent().children(".value").show();
 		});
 	});
 });
-/*
-jQuery(function($){
-}); //jQuery
-*/
 </script>
