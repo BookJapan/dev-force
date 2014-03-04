@@ -35,21 +35,46 @@
 	margin:1em;
 }
 
-.edit {
+#dev-force-data-table {
+	border-collapse: collapse;
+	border-spacing: 1px;
+}
+
+#dev-force-data-table th {
+	padding-left: 0.3em;
+}
+
+#dev-force-data-table .update {
 	margin:  0;
 	padding: 0;
 	font-size: 9pt;
 	font-family: sans-serif;
 }
 
-.edit .value{
+#dev-force-data-table .update .value{
+	margin-top:   0.3em;
+	margin-left:  0.3em;
+	margin-right: 0.3em;
+	font-size: 9pt;
 	font-family: sans-serif;
 }
 
-.edit input{
+#dev-force-data-table .update input{
 	margin: 0;
 	padding-top: 0.1em;
+	font-size: 9pt;
 	font-family: sans-serif;
 }
+
+.border-0 {
+	border-width: 0;
+}
+
+
+
+
+
+
+
 
 

@@ -12,10 +12,12 @@
 </style>
 <?php print $description; ?>
 <?php if(isset($record[0])): ?>
-<table id="dev-force" class="tablesorter" border=1>
+<table id="dev-force-data-table" class="tablesorter border-0" border=1>
 	<!-- table header -->
 	<thead>
 		<tr>
+			<td class="border-0">
+			</td>
 			<?php foreach( $column_struct as $column_name => $struct ): ?>
 				<?php
 				if(!empty($struct['hidden'])){ continue; }
@@ -38,12 +40,15 @@
 	<tbody>
 		<?php foreach( $record as $index => $columns ): ?>
 			<tr pvar="<?php print $columns[$pkey] ?>">
+				<td class="border-0">
+					<input type="button" name="" value="delete"  />
+				</td>
 				<?php foreach( $columns as $column_name => $value ): ?>
 					<?php
 					if(!empty($column_struct[$column_name]['hidden'])){ continue; }
 					$disable = empty($column_struct[$column_name]['disable']) ? null: 'disable';
 					?>
-					<td class="edit" column="<?php print $column_name ?>">
+					<td class="update" column="<?php print $column_name ?>">
 						<div class="value <?php print $disable ?>"><?php print $value ?></div>
 					</td>
 				<?php endforeach; ?>
@@ -149,8 +154,10 @@ jQuery(function($) {
 	pageHint(sorter);
 	*/
 	
-	//	Add click event
-	$(".edit").click(function(event){
+	//	Add click event (update)
+	$(".update").click(function(event){
+		//	width
+		var width = $(this).width()-6;
 		
 		//	hide
 		$(this).children(".value").hide();
@@ -164,7 +171,7 @@ jQuery(function($) {
 			//	init input
 			var $input = $("<input />");
 			$input.addClass("input");
-			$input.css('width', $(this).width() );
+			$input.css('width', width );
 			$input.val( $(this).children(".value").html() );
 			$(this).append($input);
 			$input.focus();
@@ -176,12 +183,13 @@ jQuery(function($) {
 			var column = $(this).parent().attr('column');
 			var value  = $(this).val();
 			var page   = '<?php print $page ?>';
+			var dml    = 'update';
 			
 			//	compare
 			if( $(this).val() != $(this).parent().children(".value").html() ){
 				
 				//	init post data
-				var data = {page: page, id: pvar, column: column, value: value};
+				var data = {page: page, dml: dml, id: pvar, column: column, value: value};
 				
 				//	ajax
 				$.ajax({
